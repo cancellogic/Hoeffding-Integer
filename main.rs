@@ -1,45 +1,54 @@
-//!Hoeffding Dependence Coefficient is good at finding associations, even in many non-linear situations.  For genetic algorithms, it can characterize fitness, 
-//!especially where Pearson's correlation R strongly promotes linear solutions in nonlinear problems. This integer version of Hoeffding uses integer representation
-//!of half and quarter matches.  Integer use was inspired by the observation that the original normalized function contains a denominator Pochhammer 
-//!and progress indicating digits could vanish with floating point conversions for large numbers of pairs (~n>1585).  
+//!Hoeffding Dependence Coefficient is good at finding associations, even in many non-linear situations.  For genetic algorithms it can characterize fitness, 
+//!especially where Pearson's correlation R strongly promotes linear solutions in nonlinear problems. This integer version of Hoeffding uses integer 
+//!representation of half and quarter matched rankings.  Integer use was inspired by the observation that the original normalized function contains a denominator 
+//!Pochhammer and progress indicating digits could vanish with floating point conversion for large numbers of pairs (~ n>1585 with f64's).  
 //! 
-//! Late 1950's version of Hoeffding's Statistic 
+//! Late 1950's version of Hoeffding's Dependence Coefficient 
 //! D = 30 * (   (n-2)(n-3) Sum( (Qi-1)(Qi-2) and Qi is bivariate rank of each XY pair) + Sum((Ri-1)(Ri-2)(Si-1)(Si-2) where Ri and Si are pairs but individual X and Y rank) - 2*(n-2) * Sum((Ri-2)(Si-2)(Qi-1)))    )
 //!     /(n(n-1)(n-2)(n-3)(n-4)))
 //!  
-//!The "Hoeffding Integer" value presented here is the original Hoeffding D coefficent, multiplied by 256/30 * (n)*(n-1)(n-2)(n-3)(n-4).    
+//!The "Hoeffding Integer" value presented here is the original Hoeffding Dependence coefficent, multiplied by 256/30 * (n)*(n-1)(n-2)(n-3)(n-4) where n= number of pairs.    
 //! 
 //!Minimun and Maximum possible "Hoeffding Integer" values are offered for a sense of scale.
 //! 
 //!Please forgive that I did not implement Blum Kieffer and Rosenblatt's 1961 paper or the 2017 "Simplified vs. Easier" papers by Zheng or Pelekis to turn the raw value into a precise probability.  
 //!Oye Thar be dragons. The intent for "Hoeffding Integer" use in machine learning is that larger values equal greater probability of associations even if the scale has skew.    
 //!  
-//!Cheers,  Dustan Doud (September 2021)
-//! PS:  the math is documented with comments, although 256 above was a design choice because I represented Qi and Ri and Si all in quarters so (Ri-1)(Ri-2)(Si-1)(Si-2), in quarters is 256 = 4 * 4 * 4 * 4  --> 4(Ri-1) * 4(Ri-2) * 4(Si-1) * 4(Si-2)
+//!Cheers and enjoy Rust language!  Dustan Doud (September 2021)
+//! PS:  the math is documented with comments, although 256 above is a design choice because I have represented integer Qi and Ri and Si in quarters so 
+//! (Ri-1)(Ri-2)(Si-1)(Si-2) becomes --> 4(Ri-1) * 4(Ri-2) * 4(Si-1) * 4(Si-2) and 4 x 4 x 4 x 4 = 256.
 // 
 use std::fmt::Debug; 
 
 /*INTEGER HOEFFDING STATISTIC- A terrible explainer:  
-Imagine asking a friend to randomly place the letters A through Z on graph paper.  But was the placement random?  Maybe they hid something?  To find out without reading, with Hoeffding, first you would get 
-the width (x) and height (y) of each letter.  Then you would need to rank the x and y values, followed by ranking their entwined bivariate value.
+Imagine asking a friend to randomly place the letters A through Z on graph paper.  But was the placement random?  Maybe they hid a suprise?  To find out 
+without actually reading the page, with Hoeffding's statistics, first you would get the width (x) and height (y) of each letter.  Then you would need to rank
+the x and y values, followed by ranking their entwined bivariate XY value.
 
 The x-axis rank for point A would be the count of points to the left of point A (lower x values)
 and half the values of points that had exactly same x value as point A.  Much the same for y-axis rank.  0th X or Y ranks are allowed if there is no smaller value.
 
-To compute the XY combined ranks, imagine a x-y axis cross at each lettered point.  Starting with lettered point "A", tally the count of all other points in the lower left (less less) quadrant as +1 point.  
-should different lettered point exactly matches on A's x y (equal equal) add one quarter, while lettered points that are (equal less) or (less equal) add a half.   Repeat
-tallys for all lettered points A through Z and you'd have your Qi ranks.   Almost.  Statistics and Hoeffding counted bivariate XY ranks and single ranks differently through the early life of this equation (?1948-1957) 
-leading toward easy confusion.  In 1948 Hoeffding's ranking system is roughly the answer to the question "how many lessor values exist plus a fraction of how many equal values exist."  So for integers 1 to 10, the rank of 6 would be 5 because five values are less than 6.  
-his notion changes, and by 1957 the rank of 6 in 1 to 10 is 6, and the lowest rank can not be 0th anymore but 1st.  So lets not talk about off by one problems in approaching the historic math with a modern perspective 
-and just pretend ranking things is easy.
+To compute the XY combined ranks, imagine an axis aligned cross at each lettered point.  Starting with lettered point "A", tally the count of all other points 
+in the lower left (less less) quadrant as +1 point.  Should different lettered point exactly matches on A's x & y (equal equal) add one quarter, while lettered 
+points that are (equal less) or (less equal) add a half.   Repeat tallys for all lettered points A through Z and you'd have your Qi ranks.   Almost!   
+Statistics and Hoeffding counted bivariate XY ranks and single ranks differently through the early life of this equation (?1948-1957) leading toward easy 
+confusion.  In 1948 Hoeffding's ranking system is the answer to the question "how many lessor values exist plus a fraction of how many equal values exist."  
+So for integers 1 to 10, the rank of 6 would be 5 because five values are less than 6.  This notion changes durring the founding of nonparametric statistics, and 
+by 1957 the rank of 6 in 1 to 10 is 6, and the lowest rank can not be 0th anymore but 1st by the standards.  So lets not talk about off by one errors in 
+approaching the historic math that had no idea it would change with a modern perspective that did and just pretend ranking things is easy.
  
 Ok.  So if you were to classify ranks for all 26 A-Z letters on your graph paper, you'd have a list of X axis, Y axis and XY ranks called Ri Si and Qi in statistics - (the i is for individual or indexed rank).  
 By summing the Ri Si and Qi with a bit of subtraction and multiplication, you can get D1 D2 and D3 statistics that are used to compute a dependence statistic called Hoeffding's D.
 
-And if you did this nightmare homework for an alphabetic set of pairs (or really any set larger than 5) pairs, embedded in the mathematics of the rankings is some indication of dependence, connection and correlation.  
-Waisley Hoeffding described this statistical relationship between rankings and dependence or correlation in 1948 as a series of sums, additions and multiplications of the Qi Ri and Si values.  Which makes it sound easy as 
-D = 30 * ((n-2)(n-3)*D1 ) + D2 - 2((n-2)D3) /  (n Pochhammer5 factorial) where D1 = Sum [(Qi-1)(Qi-2)], D2 = Sum[(Ri-1)*(Ri-2)(Si-1)(Si-2)] and D3 = Sum[(Ri-2)(Si-2)(Qi-1)].
-So if your friends 26 letters spilled across the page spelling out "UNCOPYRIGHTABLE" (a word with 15 unique letters) in a clear wave, this equation might well flag that it found an association.   
+And if you did this nightmare homework for an alphabetic set of pairs (or really any set larger than 5) pairs, embedded in the mathematics of the rankings is 
+some indication of dependence, connection and correlation.  Waisley Hoeffding described this statistical relationship between rankings and dependence or 
+correlation in 1948 as a series of sums, additions and multiplications of the Qi (XY bivariate ranks) Ri (X value ranked) and Si (Y value ranked).  Which makes
+it sound easy as D = 30 * ((n-2)(n-3)*D1 ) + D2 - 2((n-2)D3) /  (n Pochhammer5 factorial) 
+where D1 = Sum [(Qi-1)(Qi-2)], 
+      D2 = Sum[(Ri-1)*(Ri-2)(Si-1)(Si-2)] 
+and   D3 = Sum[(Ri-2)(Si-2)(Qi-1)].
+So if your friends 26 letters spilled across the page spelling out "UNCOPYRIGHTABLE" (a word with 15 unique letters) in a clear wave, this equation might well 
+flag that it found an association just from the positions of the not actually random letters.  
 
 */
 
