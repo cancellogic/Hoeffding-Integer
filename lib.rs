@@ -4,18 +4,18 @@
 //!denominator Pochhammer and progress indicating digits could vanish with floating point conversion for large numbers of pairs (~ n>1585 with f64's).  
 //! 
 //!Late 1950's version of Hoeffding's Dependence Coefficient 
-//! i = index 
-//! n = number of pairs, n must be 5 or greater and n for first and second list must be the same 
-//! Ri = each rank of each element in the first list (rankings may have ties)
-//! Si = each rank of each element in the second list 
-//! Qi = Bivariate rank of Ri & Si (rankings may have 
+//! i = individual index for first, second, third, fourth, fifth... pairs in two lists.  (imagine a list of X and Y plotted pixel screen dots) 
+//! n = total number of pairs, n must be 5 or greater and n for first and second lists must be the same.   
+//! Ri = each rank of each element in the first list (rankings may have ties/duplicates)    
+//! Si = each rank of each element in the second list (rankings may have ties/duplicates) 
+//! Qi = Bivariate rank of Ri & Si  (rankings may have partial ties one axis or duplicates) 
 //!
 //! D = 30 * {(n-2)(n-3) Sum[ (Qi-1)(Qi-2),{i,1,n} ] + Sum[(Ri-1)(Ri-2)(Si-1)(Si-2), {i,1,n}] - 2*(n-2) * Sum[(Ri-2)(Si-2)(Qi-1), {i,1,n}] } )/(n(n-1)(n-2)(n-3)(n-4)))
 //!  
-//!The "Hoeffding Integer" value presented here is the original Hoeffding Dependence coefficent, multiplied by 256/30 * (n)*(n-1)(n-2)(n-3)(n-4)   
+//!The "Hoeffding Integer D" value presented here is the original Hoeffding Dependence coefficent, multiplied by 256/30 * (n)*(n-1)(n-2)(n-3)(n-4)   
 //!D_Hoeffding_Integer = 256 {Sum[ (Qi-1)(Qi-2) ] + Sum[(Ri-1)(Ri-2)(Si-1)(Si-2)] - 2*(n-2) * Sum[(Ri-2)(Si-2)(Qi-1)]}
 //!
-//!Minimun and Maximum possible "Hoeffding Integer" values are offered for a sense of scale.
+//!Minimun and Maximum possible "Hoeffding Integer D" values are offered for a sense of scale.
 //! 
 //!Please forgive that I did not implement Blum Kieffer and Rosenblatt's 1961 paper or the 2017 "Simplified vs. Easier" papers by Zheng or Pelekis to turn the raw value into a precise probability.  
 //!Oye Thar be dragons. The intent for "Hoeffding Integer" use in machine learning is that larger values equal greater probability of associations even if the scale has skew.    
