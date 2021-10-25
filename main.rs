@@ -100,23 +100,20 @@ let hoeffding_integer_maximum =  (128  * n * (n-1) * (n-2) * (n-3) * (n-4) ) / 1
  hoeffding_integer_maximum
 }
 
-
- pub fn hoeffding_integer_minimum(number_pairs: usize) -> i128 {
+pub fn hoeffding_integer_minimum(number_pairs: usize) -> i128 {
      /*  
     And on to slightly simplier hoeffding_integer_MINIMUM values:
     Here I imagine minimum values to exist when all matches are equal quarter matches, except the match to self worth a whole.  
     Ri = Si ranks not equal Qi ranks.   Ri min ranks are n/2 + 1/2. And Qi min ranks are n/4 + 3/4.   
-    Wolfram Alpha :>  Simplify [ (n-2)(n-3)Sum[0i + (3/4 + n/4 - 1)(3/4 + n/4 -2), {i,1,n}] + Sum[ 0i +((n/2+1/2 - 1)(n/2+1/2 -2))^2, {i,1,n} ] - Sum[0i + (n/4+3/4-1)(n/2 + 1/2 -2)^2, {i,1,n}] ]  
+    Wolfram Alpha :>  256 * Simplify [ (n-2)(n-3)Sum[0i + (3/4 + n/4 - 1)(3/4 + n/4 -2), {i,1,n}] + Sum[ 0i +((n/2+1/2 - 1)(n/2+1/2 -2))^2, {i,1,n} ] - Sum[0i + (n/4+3/4-1)(n/2 + 1/2 -2)^2, {i,1,n}] ]  
     Wolfram Alpha = PLEASE CONSIDER PURCHASING A PRO ACCOUNT WITH WOLFRAM ALPHA :)  Thank you!
-    ouch... and my minimum math here is wrong....  need to fix this
-        =  -256/16 * n * (-3n)*(n-1)^2 = -16 * n * (-3n)*(n-1)*(n-1)    ...maybe...
+    
+        =  -256/16 * n * (n-3)*(n-1)^2 = -16 blah blah...
         */
  let n = number_pairs as i128;
-//let hoeffding_integer_minimum =  3* n * (n-1) * (n-1) * (n-5) * (3*n - 7);  
-let hoeffding_integer_minimum =  4 * n * (-3*n)*(n-1)*(n-1)  ; 
+let hoeffding_integer_minimum =  -16 *  n * (n-3)*(n-1)*(n-1)  ; 
 hoeffding_integer_minimum 
 }
-
 
  fn order_sort_by<T: Clone + Copy + PartialOrd >(list: &Vec<T>) -> Vec<usize> {
     //(1) Create index
