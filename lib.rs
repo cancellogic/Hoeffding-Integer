@@ -54,7 +54,7 @@ So if your friends 26 letters spilled across the page spelling out "UNCOPYRIGHTA
 flag that it found an association just from the positions of the not actually random letters.  
 */
 
- fn hoeffding_integer_maximum(number_pairs: usize) -> i128 {
+ pub fn hoeffding_integer_maximum(number_pairs: usize) -> i128 {
 /*
    As I imagine this function, maximum statistic should be where ranks are perfectly nested russian doll box style and minimum values should be where values and ranks are equal.  
    That's not an assertion of proof, this function accepts generics so theoretical comparisons could include nonsense oddities like (sort is Negative underflow > Not a Number?) 
@@ -100,7 +100,7 @@ let hoeffding_integer_maximum =  (128  * n * (n-1) * (n-2) * (n-3) * (n-4) ) / 1
  hoeffding_integer_maximum
 }
 
- fn hoeffding_integer_minimum(number_pairs: usize) -> i128 {
+ pub fn hoeffding_integer_minimum(number_pairs: usize) -> i128 {
      /*  
     And on to slightly simplier hoeffding_integer_MINIMUM values:
     Here I imagine minimum values to exist when all matches are equal quarter matches, except the match to self worth a whole.  
@@ -128,7 +128,7 @@ let hoeffding_integer_minimum =  3* n * (n-1) * (n-1) * (n-5) * (3*n - 7);
 }
 
 
- fn order_sort_by<T: Clone + Copy + PartialOrd >(list: &Vec<T>) -> Vec<usize> {
+ pub fn order_sort_by<T: Clone + Copy + PartialOrd >(list: &Vec<T>) -> Vec<usize> {
     //(1) Create index
     let mut orders: Vec<usize> = (0..(list.len())).collect();
 
@@ -137,7 +137,7 @@ orders.sort_by( |a,b| (list[*a]).partial_cmp(&list[*b]).unwrap());
     return orders;
 }
 
- fn count_sorted_duplicates_or_uniques<T: PartialOrd + Clone>(splice: &Vec<T>) -> Vec<usize> {
+ pub fn count_sorted_duplicates_or_uniques<T: PartialOrd + Clone>(splice: &Vec<T>) -> Vec<usize> {
     let length = splice.len();
     let mut count: usize = 1;
     let mut output: Vec<usize> = vec![];
@@ -159,7 +159,7 @@ orders.sort_by( |a,b| (list[*a]).partial_cmp(&list[*b]).unwrap());
     
 }
 
- fn hoeffding_integer_d<T: PartialOrd + Clone + Copy + Debug, P:PartialOrd + Clone + Copy + Debug >(datax: &Vec<T>, datay:&Vec<P>) -> i128{
+ pub fn hoeffding_integer_d<T: PartialOrd + Clone + Copy + Debug, P:PartialOrd + Clone + Copy + Debug >(datax: &Vec<T>, datay:&Vec<P>) -> i128{
 
     //globals
     let n_element = datax.len();
