@@ -64,6 +64,7 @@ flag that it found an association just from the positions of the not actually ra
    Let start with compute of D1 D2 D3 summations for number n in perfectly nested russian doll boxes or ranks.  (i.e. if there are 5 ranked x and y items then n=5, presume x ranks 
    of {0 1 2 3 4} y ranks of {0 1 2 3 4} and xy ranks of {1 2 3 4 5} for perfect nesting.  (aside: yes xy ranks appear to use +1 scale vs x and y in 1957 vs 1948, no I can't tell 
    if that is ideal.  "Improved" Hoeffding statistics computation methods have been researched for decades, so perhaps I'm not alone in confusion here)  
+
    Presume a perfectly nested set of all three ranks results in a maximum D1 value.  Presume all rank values are multipled by 4"quarters" and compute max D1, D2, D3.
    D1 cis Sum[(Qi-1)(Qi-2), Qi, 1, n] where Qi represents XY ranks is rearranged into Sum[(4i-4)(4i-8),i,1,n] x 1/16_ignore_for_now) yielding output via WolframAlpha  
    Sum[(4i - 4)(4i-8),{i,1,n}] --> 16/3 * n * (n*n - 3*n +2) --> 16 * n * (n-1) * (n-2) / 3   
