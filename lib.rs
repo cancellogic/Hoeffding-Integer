@@ -64,7 +64,6 @@ flag that it found an association just from the positions of the not actually ra
    Let start with compute of D1 D2 D3 summations for number n in perfectly nested russian doll boxes or ranks.  (i.e. if there are 5 ranked x and y items then n=5, presume x ranks 
    of {0 1 2 3 4} y ranks of {0 1 2 3 4} and xy ranks of {1 2 3 4 5} for perfect nesting.  (aside: yes xy ranks appear to use +1 scale vs x and y in 1957 vs 1948, no I can't tell 
    if that is ideal.  "Improved" Hoeffding statistics computation methods have been researched for decades, so perhaps I'm not alone in confusion here)  
-
    Presume a perfectly nested set of all three ranks results in a maximum D1 value.  Presume all rank values are multipled by 4"quarters" and compute max D1, D2, D3.
    D1 cis Sum[(Qi-1)(Qi-2), Qi, 1, n] where Qi represents XY ranks is rearranged into Sum[(4i-4)(4i-8),i,1,n] x 1/16_ignore_for_now) yielding output via WolframAlpha  
    Sum[(4i - 4)(4i-8),{i,1,n}] --> 16/3 * n * (n*n - 3*n +2) --> 16 * n * (n-1) * (n-2) / 3   
@@ -104,27 +103,15 @@ let hoeffding_integer_maximum =  (128  * n * (n-1) * (n-2) * (n-3) * (n-4) ) / 1
      /*  
     And on to slightly simplier hoeffding_integer_MINIMUM values:
     Here I imagine minimum values to exist when all matches are equal quarter matches, except the match to self worth a whole.  
-    Ri = Si = Qi and each individual rank has a value of 3/4 + n/4.   
-    Wolfram Alpha :>  Simplify[   Sum[ (4(3/4 + n/4) - 4)((3/4 + n/4)-8),{i,1,n}]  ]   
-    D1_min_times16 = n(n-1)(n-5)
+    Ri = Si ranks not equal Qi ranks.   Ri min ranks are n/2 + 1/2. And Qi min ranks are n/4 + 3/4.   
+    Wolfram Alpha :>  256 * Simplify [ (n-2)(n-3)Sum[0i + (3/4 + n/4 - 1)(3/4 + n/4 -2), {i,1,n}] + Sum[ 0i +((n/2+1/2 - 1)(n/2+1/2 -2))^2, {i,1,n} ] - Sum[0i + (n/4+3/4-1)(n/2 + 1/2 -2)^2, {i,1,n}] ]  
+    Wolfram Alpha = PLEASE CONSIDER PURCHASING A PRO ACCOUNT WITH WOLFRAM ALPHA :)  Thank you!
     
-    On to D2
-    Wolfram Alpha :>Simplify[ Sum[(4(3/4 + n/4) - 4)(4(3/4 + n/4)-8)(4(3/4 + n/4) - 4)(4(3/4 + n/4)-8),{i,1,n}     ] ]
-    D2_min_times_256 = n * (n-1)*(n-1) * (n-5)*(n-5)
-   
-    And lastly D3
-    Wolfram Alpha :> Simplify[ Sum[(4(3/4 + n/4) - 4)(4(3/4 + n/4)-8)(4(3/4 + n/4)-8),{i,1,n}     ] ]
-    D3_min_times64 = PLEASE CONSIDER PURCHASING A PRO ACCOUNT WITH WOLFRAM ALPHA :)  thank you Wolfram Alpha!
-                   = n * (n-1) * (n-5) * (n-5)
-    D_minimum_times_pochhammer_times_256 = ( (n-2)(n-3) *  16 * n(n-1)(n-5) ) + 
-                                            n * (n-1)*(n-1) * (n-5)*(n-5) - 
-                                             2*(n-2) *     4 * n * (n-1) * (n-5) * (n-5)
-     Wolfram_Alpha :> Simplify[( (n-2)(n-3) *  16 * n(n-1)(n-5) ) + n * (n-1)*(n-1) * (n-5)*(n-5) -  2*(n-2) * 4 * n * (n-1) * (n-5) * (n-5)   
-                     = 3n(n-1)(n-1)(n-5)(3n-7)                                        
-    */
+        =  -256/16 * n * (n-3)*(n-1)^2 = -16 blah blah...
+        */
  let n = number_pairs as i128;
-let hoeffding_integer_minimum =  3* n * (n-1) * (n-1) * (n-5) * (3*n - 7);  
- hoeffding_integer_minimum 
+let hoeffding_integer_minimum =  -16 *  n * (n-3)*(n-1)*(n-1)  ; 
+hoeffding_integer_minimum 
 }
 
 
@@ -275,5 +262,21 @@ hoeffding_integer_numerator // linear to original statistic
 
 
 fn main() {
-
+//  let data: Vec<&str> = vec!["a","a","a","b","b","b","c","c","c","d"];
+//let data: Vec<&str> = vec!["a","b","c","d","e","f","g","h","i","j"];
+//let data = vec![0,0,0,0,0,0,0,0,0,0];
+//let data2: Vec<&str> = vec!["a","b","c","a","b","c","a","c","c","a"];
+//let data:Vec<u8>= vec![1,2,3,4,5,6,7,8,9,10];
+// let data2:Vec<u8> = vec![2,3,4,5,6,7,8,9,10,12];
+//let data2: Vec<&str> = vec!["a","b","c","d","e","f","g","h", "i", "j"];
+//let now1 = std::time::Instant::now();
+//let d = hoeffding_integer_d(&data, &data);//let hoeff = hoeffding_dependence_coefficient(&longdataa, &longdatab);
+//println!("Compared {:?} with {:?}",data,data2);
+//println!("Hoeffding Integer D dependence coefficident: {}",d);
+//let minimum = hoeffding_integer_minimum(data.len());
+//let maximum = hoeffding_integer_maximum(data.len());
+//println!("Hoeffding Integer D dependence coefficient minmum and maximum possible values: {} <--> {}",minimum,maximum);
+//println!("                                           (min = no observed dependence, max = strong association connection relationship or correlation)");
+//let now2= std::time::Instant::now(); let timekeeper = now2-now1;
+//println!("comparision of a trillion pairs took just a little over umteen days.  Only {:?} milliseconds",timekeeper);
 }
