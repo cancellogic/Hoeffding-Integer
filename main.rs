@@ -1,14 +1,20 @@
 //!Hoeffding Dependence Coefficient is good at finding associations, even in many non-linear situations.  For genetic algorithms it can characterize fitness, 
 //!especially where Pearson's correlation R strongly promotes linear solutions in nonlinear problems. This integer version of Hoeffding uses integer 
-//!representation of half and quarter matched rankings.  Integer use was inspired by the observation that the original normalized function contains a denominator 
-//!Pochhammer and progress indicating digits could vanish with floating point conversion for large numbers of pairs (~ n>1585 with f64's).  
+//!representation of half and quarter matched rankings.  Integer use was inspired by the observation that the original normalized function contains a 
+//!denominator Pochhammer and progress indicating digits could vanish with floating point conversion for large numbers of pairs (~ n>1585 with f64's).  
 //! 
-//! Late 1950's version of Hoeffding's Dependence Coefficient 
-//! D = 30 * (   (n-2)(n-3) Sum( (Qi-1)(Qi-2) and Qi is bivariate rank of each XY pair) + Sum((Ri-1)(Ri-2)(Si-1)(Si-2) where Ri and Si are pairs but individual X and Y rank) - 2*(n-2) * Sum((Ri-2)(Si-2)(Qi-1)))    )
-//!     /(n(n-1)(n-2)(n-3)(n-4)))
+//!Late 1950's version of Hoeffding's Dependence Coefficient 
+//! 
+//! n = number of pairs, n must be 5 or greater and n for first and second list must be the same 
+//! Ri = each rank of each element in the first list (rankings may have ties)
+//! Si = each rank of each element in the second list 
+//! Qi = Bivariate rank of Ri & Si (rankings may have 
+//!
+//! D = 30 * {(n-2)(n-3) Sum[ (Qi-1)(Qi-2) ] + Sum[(Ri-1)(Ri-2)(Si-1)(Si-2)] - 2*(n-2) * Sum[(Ri-2)(Si-2)(Qi-1)] } )/(n(n-1)(n-2)(n-3)(n-4)))
 //!  
-//!The "Hoeffding Integer" value presented here is the original Hoeffding Dependence coefficent, multiplied by 256/30 * (n)*(n-1)(n-2)(n-3)(n-4) where n= number of pairs.    
-//! 
+//!The "Hoeffding Integer" value presented here is the original Hoeffding Dependence coefficent, multiplied by 256/30 * (n)*(n-1)(n-2)(n-3)(n-4)   
+//!D_Hoeffding_Integer = 256 {Sum[ (Qi-1)(Qi-2) ] + Sum[(Ri-1)(Ri-2)(Si-1)(Si-2)] - 2*(n-2) * Sum[(Ri-2)(Si-2)(Qi-1)]}
+//!
 //!Minimun and Maximum possible "Hoeffding Integer" values are offered for a sense of scale.
 //! 
 //!Please forgive that I did not implement Blum Kieffer and Rosenblatt's 1961 paper or the 2017 "Simplified vs. Easier" papers by Zheng or Pelekis to turn the raw value into a precise probability.  
@@ -124,7 +130,20 @@ fn hoeffding_integer_min_max(number_of_pairs:usize) -> (i128,i128) {
 
 }
 
-fn order_sort_by<T: Clone + Copy + PartialOrd >(list: &Vec<T>) -> Vec<usize> {
+public fn hoeffding_integer_maximum(number_pairs: usize) -> i128 {
+ let n = number_pairs as i128;
+let hoeffding_integer_maximum =  (128  * n * (n-1) * (n-2) * (n-3) * (n-4) ) / 15;
+ hoeffding_integer_maximum
+}
+
+public fn hoeffding_integer_minimum(number_pairs: usize) -> i128 {
+ let n = number_pairs as i128;
+let hoeffding_integer_minimum =  3* n * (n-1) * (n-1) * (n-5) * (3*n - 7);
+ hoeffding_integer_minimum 
+}
+
+
+public fn order_sort_by<T: Clone + Copy + PartialOrd >(list: &Vec<T>) -> Vec<usize> {
     //(1) Create index
     let mut orders: Vec<usize> = (0..(list.len())).collect();
 
@@ -133,7 +152,7 @@ orders.sort_by( |a,b| (list[*a]).partial_cmp(&list[*b]).unwrap());
     return orders;
 }
 
-fn count_sorted_duplicates_or_uniques<T: PartialOrd + Clone>(splice: &Vec<T>) -> Vec<usize> {
+public fn count_sorted_duplicates_or_uniques<T: PartialOrd + Clone>(splice: &Vec<T>) -> Vec<usize> {
     let length = splice.len();
     let mut count: usize = 1;
     let mut output: Vec<usize> = vec![];
@@ -155,7 +174,7 @@ fn count_sorted_duplicates_or_uniques<T: PartialOrd + Clone>(splice: &Vec<T>) ->
     
 }
 
-fn hoeffding_integer<T: PartialOrd + Clone + Copy + Debug, P:PartialOrd + Clone + Copy + Debug >(datax: &Vec<T>, datay:&Vec<P>) -> i128{
+public fn hoeffding_integer_d<T: PartialOrd + Clone + Copy + Debug, P:PartialOrd + Clone + Copy + Debug >(datax: &Vec<T>, datay:&Vec<P>) -> i128{
 
     //globals
     let n_element = datax.len();
