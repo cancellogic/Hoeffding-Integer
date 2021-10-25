@@ -100,31 +100,21 @@ let hoeffding_integer_maximum =  (128  * n * (n-1) * (n-2) * (n-3) * (n-4) ) / 1
  hoeffding_integer_maximum
 }
 
- fn hoeffding_integer_minimum(number_pairs: usize) -> i128 {
+
+ pub fn hoeffding_integer_minimum(number_pairs: usize) -> i128 {
      /*  
     And on to slightly simplier hoeffding_integer_MINIMUM values:
     Here I imagine minimum values to exist when all matches are equal quarter matches, except the match to self worth a whole.  
-    Ri = Si = Qi and each individual rank has a value of 3/4 + n/4.   
-    Wolfram Alpha :>  Simplify[   Sum[ (4(3/4 + n/4) - 4)((3/4 + n/4)-8),{i,1,n}]  ]   
-    D1_min_times16 = n(n-1)(n-5)
-    
-    On to D2
-    Wolfram Alpha :>Simplify[ Sum[(4(3/4 + n/4) - 4)(4(3/4 + n/4)-8)(4(3/4 + n/4) - 4)(4(3/4 + n/4)-8),{i,1,n}     ] ]
-    D2_min_times_256 = n * (n-1)*(n-1) * (n-5)*(n-5)
-   
-    And lastly D3
-    Wolfram Alpha :> Simplify[ Sum[(4(3/4 + n/4) - 4)(4(3/4 + n/4)-8)(4(3/4 + n/4)-8),{i,1,n}     ] ]
-    D3_min_times64 = PLEASE CONSIDER PURCHASING A PRO ACCOUNT WITH WOLFRAM ALPHA :)  thank you Wolfram Alpha!
-                   = n * (n-1) * (n-5) * (n-5)
-    D_minimum_times_pochhammer_times_256 = ( (n-2)(n-3) *  16 * n(n-1)(n-5) ) + 
-                                            n * (n-1)*(n-1) * (n-5)*(n-5) - 
-                                             2*(n-2) *     4 * n * (n-1) * (n-5) * (n-5)
-     Wolfram_Alpha :> Simplify[( (n-2)(n-3) *  16 * n(n-1)(n-5) ) + n * (n-1)*(n-1) * (n-5)*(n-5) -  2*(n-2) * 4 * n * (n-1) * (n-5) * (n-5)   
-                     = 3n(n-1)(n-1)(n-5)(3n-7)                                        
-    */
+    Ri = Si ranks not equal Qi ranks.   Ri min ranks are n/2 + 1/2. And Qi min ranks are n/4 + 3/4.   
+    Wolfram Alpha :>  Simplify [ (n-2)(n-3)Sum[0i + (3/4 + n/4 - 1)(3/4 + n/4 -2), {i,1,n}] + Sum[ 0i +((n/2+1/2 - 1)(n/2+1/2 -2))^2, {i,1,n} ] - Sum[0i + (n/4+3/4-1)(n/2 + 1/2 -2)^2, {i,1,n}] ]  
+    Wolfram Alpha = PLEASE CONSIDER PURCHASING A PRO ACCOUNT WITH WOLFRAM ALPHA :)  Thank you!
+    ouch... and my minimum math here is wrong....  need to fix this
+        =  -256/16 * n * (-3n)*(n-1)^2 = -16 * n * (-3n)*(n-1)*(n-1)    ...maybe...
+        */
  let n = number_pairs as i128;
-let hoeffding_integer_minimum =  3* n * (n-1) * (n-1) * (n-5) * (3*n - 7);  
- hoeffding_integer_minimum 
+//let hoeffding_integer_minimum =  3* n * (n-1) * (n-1) * (n-5) * (3*n - 7);  
+let hoeffding_integer_minimum =  4 * n * (-3*n)*(n-1)*(n-1)  ; 
+hoeffding_integer_minimum 
 }
 
 
