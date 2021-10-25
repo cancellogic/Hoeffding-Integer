@@ -4,18 +4,18 @@
 //!denominator Pochhammer and progress indicating digits could vanish with floating point conversion for large numbers of pairs (~ n>1585 with f64's).  
 //! 
 //!Late 1950's version of Hoeffding's Dependence Coefficient 
-//! i = index 
-//! n = number of pairs, n must be 5 or greater and n for first and second list must be the same 
-//! Ri = each rank of each element in the first list (rankings may have ties)
-//! Si = each rank of each element in the second list 
-//! Qi = Bivariate rank of Ri & Si (rankings may have 
+//! i = individual index for first, second, third, fourth, fifth... pairs in two lists.  (imagine a list of X and Y plotted pixel screen dots) 
+//! n = total number of pairs, n must be 5 or greater and n for first and second lists must be the same.   
+//! Ri = each rank of each element in the first list (rankings may have ties/duplicates)    
+//! Si = each rank of each element in the second list (rankings may have ties/duplicates) 
+//! Qi = Bivariate rank of Ri & Si  (rankings may have partial ties one axis or duplicates) 
 //!
 //! D = 30 * {(n-2)(n-3) Sum[ (Qi-1)(Qi-2),{i,1,n} ] + Sum[(Ri-1)(Ri-2)(Si-1)(Si-2), {i,1,n}] - 2*(n-2) * Sum[(Ri-2)(Si-2)(Qi-1), {i,1,n}] } )/(n(n-1)(n-2)(n-3)(n-4)))
 //!  
-//!The "Hoeffding Integer" value presented here is the original Hoeffding Dependence coefficent, multiplied by 256/30 * (n)*(n-1)(n-2)(n-3)(n-4)   
+//!The "Hoeffding Integer D" value presented here is the original Hoeffding Dependence coefficent, multiplied by 256/30 * (n)*(n-1)(n-2)(n-3)(n-4)   
 //!D_Hoeffding_Integer = 256 {Sum[ (Qi-1)(Qi-2) ] + Sum[(Ri-1)(Ri-2)(Si-1)(Si-2)] - 2*(n-2) * Sum[(Ri-2)(Si-2)(Qi-1)]}
 //!
-//!Minimun and Maximum possible "Hoeffding Integer" values are offered for a sense of scale.
+//!Minimun and Maximum possible "Hoeffding Integer D" values are offered for a sense of scale.
 //! 
 //!Please forgive that I did not implement Blum Kieffer and Rosenblatt's 1961 paper or the 2017 "Simplified vs. Easier" papers by Zheng or Pelekis to turn the raw value into a precise probability.  
 //!Oye Thar be dragons. The intent for "Hoeffding Integer" use in machine learning is that larger values equal greater probability of associations even if the scale has skew.    
@@ -54,7 +54,7 @@ So if your friends 26 letters spilled across the page spelling out "UNCOPYRIGHTA
 flag that it found an association just from the positions of the not actually random letters.  
 */
 
- fn hoeffding_integer_maximum(number_pairs: usize) -> i128 {
+ pub fn hoeffding_integer_maximum(number_pairs: usize) -> i128 {
 /*
    As I imagine this function, maximum statistic should be where ranks are perfectly nested russian doll box style and minimum values should be where values and ranks are equal.  
    That's not an assertion of proof, this function accepts generics so theoretical comparisons could include nonsense oddities like (sort is Negative underflow > Not a Number?) 
@@ -64,7 +64,6 @@ flag that it found an association just from the positions of the not actually ra
    Let start with compute of D1 D2 D3 summations for number n in perfectly nested russian doll boxes or ranks.  (i.e. if there are 5 ranked x and y items then n=5, presume x ranks 
    of {0 1 2 3 4} y ranks of {0 1 2 3 4} and xy ranks of {1 2 3 4 5} for perfect nesting.  (aside: yes xy ranks appear to use +1 scale vs x and y in 1957 vs 1948, no I can't tell 
    if that is ideal.  "Improved" Hoeffding statistics computation methods have been researched for decades, so perhaps I'm not alone in confusion here)  
-
    Presume a perfectly nested set of all three ranks results in a maximum D1 value.  Presume all rank values are multipled by 4"quarters" and compute max D1, D2, D3.
    D1 cis Sum[(Qi-1)(Qi-2), Qi, 1, n] where Qi represents XY ranks is rearranged into Sum[(4i-4)(4i-8),i,1,n] x 1/16_ignore_for_now) yielding output via WolframAlpha  
    Sum[(4i - 4)(4i-8),{i,1,n}] --> 16/3 * n * (n*n - 3*n +2) --> 16 * n * (n-1) * (n-2) / 3   
@@ -100,7 +99,7 @@ let hoeffding_integer_maximum =  (128  * n * (n-1) * (n-2) * (n-3) * (n-4) ) / 1
  hoeffding_integer_maximum
 }
 
-pub fn hoeffding_integer_minimum(number_pairs: usize) -> i128 {
+ pub fn hoeffding_integer_minimum(number_pairs: usize) -> i128 {
      /*  
     And on to slightly simplier hoeffding_integer_MINIMUM values:
     Here I imagine minimum values to exist when all matches are equal quarter matches, except the match to self worth a whole.  
@@ -115,7 +114,8 @@ let hoeffding_integer_minimum =  -16 *  n * (n-3)*(n-1)*(n-1)  ;
 hoeffding_integer_minimum 
 }
 
- fn order_sort_by<T: Clone + Copy + PartialOrd >(list: &Vec<T>) -> Vec<usize> {
+
+ pub fn order_sort_by<T: Clone + Copy + PartialOrd >(list: &Vec<T>) -> Vec<usize> {
     //(1) Create index
     let mut orders: Vec<usize> = (0..(list.len())).collect();
 
@@ -124,7 +124,7 @@ orders.sort_by( |a,b| (list[*a]).partial_cmp(&list[*b]).unwrap());
     return orders;
 }
 
- fn count_sorted_duplicates_or_uniques<T: PartialOrd + Clone>(splice: &Vec<T>) -> Vec<usize> {
+ pub fn count_sorted_duplicates_or_uniques<T: PartialOrd + Clone>(splice: &Vec<T>) -> Vec<usize> {
     let length = splice.len();
     let mut count: usize = 1;
     let mut output: Vec<usize> = vec![];
@@ -146,7 +146,7 @@ orders.sort_by( |a,b| (list[*a]).partial_cmp(&list[*b]).unwrap());
     
 }
 
- fn hoeffding_integer_d<T: PartialOrd + Clone + Copy + Debug, P:PartialOrd + Clone + Copy + Debug >(datax: &Vec<T>, datay:&Vec<P>) -> i128{
+ pub fn hoeffding_integer_d<T: PartialOrd + Clone + Copy + Debug, P:PartialOrd + Clone + Copy + Debug >(datax: &Vec<T>, datay:&Vec<P>) -> i128{
 
     //globals
     let n_element = datax.len();
@@ -262,17 +262,21 @@ hoeffding_integer_numerator // linear to original statistic
 
 
 fn main() {
-    let data: Vec<&str> = vec!["a","a","a","b","b","b","c","c","c"];
-    //let data2: Vec<&str> = vec!["a","b","c","a","b","c","a","c","c"];
+    let data: Vec<&str> = vec!["a","a","a","b","b","b","c","c","c","d"];
+    //let data: Vec<&str> = vec!["a","b","c","d","e","f","g","h","i","j"];
+    //let data = vec![0,0,0,0,0,0,0,0,0,0];
+    //let data2: Vec<&str> = vec!["a","b","c","a","b","c","a","c","c","a"];
    //let data:Vec<u8>= vec![1,2,3,4,5,6,7,8,9,10];
    let data2:Vec<u8> = vec![2,3,4,5,6,7,8,9,10,12];
    //let data2: Vec<&str> = vec!["a","b","c","d","e","f","g","h", "i", "j"];
 //let now1 = std::time::Instant::now();
-let d = hoeffding_integer_d(&data, &data2);//let hoeff = hoeffding_dependence_coefficient(&longdataa, &longdatab);
-println!("statistic {}",d);
+let d = hoeffding_integer_d(&data, &data);//let hoeff = hoeffding_dependence_coefficient(&longdataa, &longdatab);
+println!("Compared {:?} with {:?}",data,data2);
+println!("Hoeffding Integer D dependence coefficident: {}",d);
 let minimum = hoeffding_integer_minimum(data.len());
 let maximum = hoeffding_integer_maximum(data.len());
-println!("min and max: {} <--> {}",minimum,maximum);
+println!("Hoeffding Integer D dependence coefficient minmum and maximum possible values: {} <--> {}",minimum,maximum);
+println!("                                           (min = no observed dependence, max = strong association connection relationship or correlation)");
 //let now2= std::time::Instant::now(); let timekeeper = now2-now1;
 
 }
