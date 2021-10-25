@@ -1,5 +1,6 @@
 # Hoeffding Dependence Coefficient in Integer Form
-This is Wassley Hoeffding's 1948 equation for detecting -frequently nonlinear- relationships in data or variables.  Hoeffding helped found modern non-parametric statistics and his work has inspired decades of additional work.  
+This is Wassley Hoeffding's 1948 equation for detecting -frequently nonlinear- relationships in data or variables.  Wassley Hoeffding was there at the founding of modern non-parametric statistics and Hoeffding's work has inspired decades of additional work.  (Evgene Slutsky may have anticipated some of Hoeffding's work on the Dependence Coefficient, but cold war and no publish in the west.)
+
 In this version, the dependence cofficient or association value is computed with integer calculation by multiplying Hoeffdings Dependence coefficient D by n(n-1)(n-2)(n-3)(n-4)(256/30) (n=number of pairs).  Higher values do have stronger relationships- good for detection of valuble models in machine learning or genetic algorithm fitness assessment especially in non-linear situations. Coded in Rust for generic partially ordinal types (compare {"g","e","n","e","r","i","c","s"} and {3.0,1.0,4.0,1.0,5.0,4.0,3.5,6.1}).  Yep- directly compare different data types - if they sort they likely can be run through Hoeffding_Integer.
 # Why?
 Why program in RUST?  Rust is fast.
