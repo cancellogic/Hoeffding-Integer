@@ -34,5 +34,5 @@ println!("Compare text and numbers:  {:?}  vs.  {:?}",&textdata, &numdata);
 println!("Hoeffding's dependence coefficient D as integer: {}", hoeffding_dependence_statistic_as_integer );
 println!("min and max possible for statistic: {} <--> {}",dependence_min, dependence_max);
 # Babble...
-Evygene Slutsky may have anticipated some of Hoeffding's work on dependence, but cold war, stoic man and little published in the west.   
+Evygene Slutsky may have anticipated some of Hoeffding's work on dependence, but cold war, stoic man and little published in the west.   I believe ES died the say year H published his this statistic and I think there might be a connection.
 
