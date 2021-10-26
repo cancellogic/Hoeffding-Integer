@@ -1,0 +1,10 @@
+[package]
+name = "hoeffding_integer_d"
+version = "0.1.0"
+edition = "2018"
+author = "Dustan Doud"
+description = "Hoeffding's Dependence coefficient presented as an integer between minimum and maximum integer values of the statistic.  Hoeffding's D is like Pearsons correlation R, but accepts a wide range of nonlinear situations.  Supports many partial ordinal types of data."
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
