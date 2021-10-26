@@ -1,12 +1,14 @@
 # Hoeffding Dependence Coefficient in Integer Form
-This is Wassley Hoeffding's 1948 equation for detecting -frequently nonlinear- relationships in data or variables.  Wassley Hoeffding was there at the founding of modern non-parametric statistics and Hoeffding's work has inspired decades of additional work.  (Evygene Slutsky may have anticipated some of Hoeffding's work on dependence, but cold war and no publish in the west.)
+This is Wassley Hoeffding's 1948 equation for detecting -frequently nonlinear- relationships in data or variables.  Wassley Hoeffding was there at the founding of modern non-parametric statistics and Hoeffding's work has inspired decades of additional work.  (Evygene Slutsky may have anticipated some of Hoeffding's work on dependence, but cold war, stoic man and little published in the west.)
 
 Hoeffding D = 30 [ (n-2)(n-3)Sum[(Qi-1)(Qi-2)] + Sum[(Ri-1)(Ri-2)(Si-1)(Si-2)] - 2(n-2)Sum[(Ri-2)(Si-2)(Qi-1)] ] / [ n(n-1)(n-2)(n-3)(n-4)] 
 
-integer variation = 256 * [ (n-2)(n-3)Sum[(Qi-1)(Qi-2)] + Sum[(Ri-1)(Ri-2)(Si-1)(Si-2)] - 2(n-2)Sum[(Ri-2)(Si-2)(Qi-1)] ]
+"H_integer D" = 256 * [ (n-2)(n-3)Sum[(Qi-1)(Qi-2)] + Sum[(Ri-1)(Ri-2)(Si-1)(Si-2)] - 2(n-2)Sum[(Ri-2)(Si-2)(Qi-1)] ]
 
 In this variation of the Dependence calculation, the association is computed with integers by multiplication of the original statistic with 
 n(n-1)(n-2)(n-3)(n-4)(256/30) (n=number of pairs).  Higher values have stronger relationships- good for detection of useful models in machine learning or for genetic algorithm fitness assessment especially in non-linear situations. 
+
+Min and Max values of the integer form can be computed for a given length of paired comparisions. 
 
 Coded in Rust for generic partially ordinal types (compare {"g","e","n","e","r","i","c","s"} and {3.0,1.0,4.0,1.0,5.0,4.0,3.5,6.1}).  Yep- directly compare different data types - if they sort they likely can be run through Hoeffding_Integer.
 # Why?
@@ -25,10 +27,10 @@ let textdata: Vec<&str> = vec!["a","a","a","b","b","b","c","c","c"];
 let numdata:    Vec<u8> = vec![ 1 , 2 , 3 , 4 , 5 , 5 , 6 , 7 , 8 ];
 
 let hoeffding_dependence_statistic_as_integer:i128 = hoeffding_integer[textdata, numdata];
-let dependence_min:(i128,i128) = hoeffding_integer_minimum( textdata.len() );
-let dependence_max:(i128,i128) = hoeffding_integer_maximum( textdata.len() );
+let dependence_min = hoeffding_integer_minimum( textdata.len() );
+let dependence_max = hoeffding_integer_maximum( textdata.len() );
 
 println!("Compare text and numbers:  {:?}  vs.  {:?}",&textdata, &numdata);
 println!("Hoeffding's dependence coefficient D as integer: {}", hoeffding_dependence_statistic_as_integer );
-println!("min and max possible for statistic: {}",dependence_min_max_as_integer);
+println!("min and max possible for statistic: {} <--> {}",dependence_min, dependence_max);
   
