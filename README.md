@@ -3,7 +3,8 @@ This is Wassley Hoeffding's 1948 equation for detecting -frequently nonlinear- r
 
 Hoeffding D = 30 [ (n-2)(n-3)Sum[(Qi-1)(Qi-2)] + Sum[(Ri-1)(Ri-2)(Si-1)(Si-2)] - 2(n-2)Sum[(Ri-2)(Si-2)(Qi-1)] ] / [ n(n-1)(n-2)(n-3)(n-4)] 
         
-        where n = number of paired observations, 
+        where D = Dependency, correlation, connection, association, or how unlikely random chance might align the paired lists.
+              n = number of paired observations, 
               Ri are ranks of first value in pair among all other firsts values with half awarded for matches  
               Si are ranks of the second value in a pair among all second values with half awarded for matches
               and Qi are bivariate ranks or in English: Plot pairs as xy points, then for each pair count points 
