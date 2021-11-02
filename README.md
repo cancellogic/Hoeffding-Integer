@@ -3,15 +3,19 @@ This is Wassley Hoeffding's 1948 equation for detecting -frequently nonlinear- r
 
 Hoeffding D = 30 [ (n-2)(n-3)Sum[(Qi-1)(Qi-2)] + Sum[(Ri-1)(Ri-2)(Si-1)(Si-2)] - 2(n-2)Sum[(Ri-2)(Si-2)(Qi-1)] ] / [ n(n-1)(n-2)(n-3)(n-4)] 
         
-        where n = number of paired observations, Ri are ranks of first value in pair among all other firsts values with halves for matches  
-              Si are ranks of the second value in a pair among all second values with halves for matches
-              and Qi are bivariate ranks or in English: a count of how many pairs (as xy points on a plot) are smaller in both paired values (x and y)
-              (plus one for self match, plus a quarter for other points that have the same xy values, plus a half when x1=x2 y is lower or y1=y2 x is lower)  
+        where n = number of paired observations, 
+              Ri are ranks of first value in pair among all other firsts values with half awarded for matches  
+              Si are ranks of the second value in a pair among all second values with half awarded for matches
+              and Qi are bivariate ranks or in English: Plot pairs as xy points, then for each pair count points 
+              that are smaller in both paired values (x and y) then add 3/4 for a pair matching itself, 
+              plus add a quarter for all pairs that have the same xy values (include self again), plus a half for 
+              half equal & half lesser pairs.)  
 
 If the above was multiplied by a value such that whole ranks were represented as four quarters, and the Pochhammer [n(n-1)(n-2)(n-3)(n-4)] was factored out
 to avoid fractions, the equation would look like:
-"H_integer D" = [ 16(n-2)(n-3)Sum[4(Qi-1)4(Qi-2)] + Sum[4(Ri-1)4(Ri-2)4(Si-1)4(Si-2)] - 4*2(n-2)Sum[4(Ri-2)4(Si-2)4(Qi-1)] ]
-"H_integer D" = 256 * [ (n-2)(n-3)Sum[(Qi-1)(Qi-2)] + Sum[(Ri-1)(Ri-2)(Si-1)(Si-2)] - 2(n-2)Sum[(Ri-2)(Si-2)(Qi-1)] ]
+        "H_integer D" = [ 16(n-2)(n-3)Sum[4(Qi-1)4(Qi-2)] + Sum[4(Ri-1)4(Ri-2)4(Si-1)4(Si-2)] - 4*2(n-2)Sum[4(Ri-2)4(Si-2)4(Qi-1)] ]
+        
+        "H_integer D" = 256 * [ (n-2)(n-3)Sum[(Qi-1)(Qi-2)] + Sum[(Ri-1)(Ri-2)(Si-1)(Si-2)] - 2(n-2)Sum[(Ri-2)(Si-2)(Qi-1)] ]
 
 In this variation of the Dependence calculation, the association is computed with integers by multiplication of the original statistic with 
 n(n-1)(n-2)(n-3)(n-4)(256/30) (n=number of pairs).  Higher values have stronger relationships- good for detection of useful models in machine learning or for genetic algorithm fitness assessment especially in non-linear situations. 
