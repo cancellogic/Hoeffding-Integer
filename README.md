@@ -26,8 +26,8 @@ Please read the hundred lines of mathematics in the comments of main.rs or lib.r
 
 first add hoeffding_integer to your cargo file from crates.io (and I haven't published in crates.io as of Oct 2021... but soon)
 
-let textdata: Vec<&str> = vec!["a","a","a","b","b","b","c","c","c"];
-let numdata:    Vec<u8> = vec![ 1 , 2 , 3 , 4 , 5 , 5 , 6 , 7 , 8 ];
+// let textdata: Vec<&str> = vec!["a","a","a","b","b","b","c","c","c"];
+// let numdata:    Vec<u8> = vec![ 1 , 2 , 3 , 4 , 5 , 5 , 6 , 7 , 8 ];
 
 let hoeffding_dependence_statistic_as_integer:i128 = hoeffding_integer[textdata, numdata];
 let dependence_min = hoeffding_integer_minimum( textdata.len() );
