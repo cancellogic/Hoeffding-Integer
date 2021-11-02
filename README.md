@@ -25,7 +25,7 @@ Min and Max values of the integer form can be computed for a given length of pai
 Coded in Rust for generic partially ordinal types (compare {"g","e","n","e","r","i","c","s"} and {3.0,1.0,4.0,1.0,5.0,4.0,3.5,6.1}).  Yep- directly compare different data types - if they sort they likely can be run through Hoeffding_Integer.
 
 # Why?
-Hoeffding's Dependence Coefficient is very goot at assigning fitness to nonlinear models for genetic algorithms and machine learning.  
+Hoeffding's Dependence Coefficient is very goot at assigning fitness to nonlinear models for genetic algorithms and machine learning.  The Pochhamer free version isn't normalized so direct comparision between n=50 and n=1000 is not clear even with min and max values for each.  But this still works well in machine learning when models have "not-a-number" defects (defects automatically get lower scores if more than one defect exists, and automatically get lower scores should invalid values be pruned.)
 
 Why program in RUST?  Rust is fast and has taught me better ways to code!  
 
@@ -34,7 +34,7 @@ Why integer?   A ?fantasy? that integer hoeffding is a step toward GPU computati
 This quibble can be reframed as "what are Hoeffding's D weaknesses?"  In my mind, (1) it is more expensive to compute than Pearsons R (note rust & GPU fantasy) and (2) It finds hidden relationships too well and reports high levels of certainty too quickly for ideal use in selecting "very best of many best" models.  Don't get me wrong - quibbles are quibbles - if you have chemical, biological, behavioral, finance or network data where linear relationships do not rule, please consider Hoeffding D over Pearsons R correlation. 
 
 # The math 
-Please read the hundred lines of mathematics in the comments of main.rs or lib.rs!  I've tried to make the statistic's computation possible to verify, follow and understand. 
+Please read the hundred lines of mathematics in the comments of main.rs or lib.rs!  I've tried to make the statistic's computation possible to verify, follow and understand.    
 
 # How to use
 first add hoeffding_integer to your cargo file from crates.io (Published late Oct 2021)
