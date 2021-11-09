@@ -254,7 +254,7 @@ pub fn hoeffding_integer_d<T: PartialOrd + Clone + Copy, P: PartialOrd + Clone +
         .map(|i| ((originxy[i] as i128) - 4) * ((originxy[i] as i128) - 8))
         .collect(); //note that originxy[i] = Q_sub_i - 1 (bivariate rank minus 1 for each i)
     let d_subone_times_sixteen: i128 = d_subone_times_sixteen_list.iter().sum();
-    println!("d1={}", &d_subone_times_sixteen);
+    //println!("d1={}", &d_subone_times_sixteen);
 
     //D2 = Sum((Ri-1)(Ri-2)(Si-1)(Si-2)) but R and S are in integer quarters so D2 = (Sum(( 4Ri-4)(4Si-4)(4Ri-8)(4Si-8) )) )/256
     let d_subtwo_times_twofiftysix_list: Vec<i128> = (0..n_element)
@@ -266,7 +266,7 @@ pub fn hoeffding_integer_d<T: PartialOrd + Clone + Copy, P: PartialOrd + Clone +
         })
         .collect();
     let d_subtwo_times_twofiftysix: i128 = d_subtwo_times_twofiftysix_list.iter().sum();
-    println!("d2={}", &d_subtwo_times_twofiftysix);
+    //println!("d2={}", &d_subtwo_times_twofiftysix);
 
     //D3 = Sum((R-2)(S-2)(Q-1)) but integer quarters again so D3 = Sum ((4Ri-8)(4Si-8)(4Qi-4)) / 64
     let d_subthree_times_sixtyfour_list: Vec<i128> = (0..n_element)
@@ -278,21 +278,21 @@ pub fn hoeffding_integer_d<T: PartialOrd + Clone + Copy, P: PartialOrd + Clone +
         .collect();
     let d_subthree_times_sixtyfour: i128 = d_subthree_times_sixtyfour_list.iter().sum();
     let n = n_element as i128;
-    println!("d3={}", &d_subthree_times_sixtyfour);
+    //println!("d3={}", &d_subthree_times_sixtyfour);
 
     // D = 30* ((n-2)*(n-3)*D1 + D2 - 2*(n-2)*D3 ) / (n*(n-1)*(n-2)*(n-3)*(n-4))
     //lets multiply 30 about by 256/30 so we can avoid pesky fractions in integer calculation
     //let h_first_times256:i128 = (256/16 = 16) *(( ((n-2)*(n-3)) * d_subone_times_sixteen) as i128);  //n is greater than 4 and therefore 30*(n-2)*(n-3) is always positive and evenly divible by four.
     let h_first_times256: i128 = 16 * (((n - 2) * (n - 3)) * d_subone_times_sixteen);
-    println!("head1{:?}", &h_first_times256);
+    //println!("head1{:?}", &h_first_times256);
 
     //let h_second_times256:i128 = 256/256 *(d_subtwo_times_twofiftysix ) as i128;
     let h_second_times256: i128 = d_subtwo_times_twofiftysix;
-    println!("head2{:?}", &h_second_times256);
+    //println!("head2{:?}", &h_second_times256);
 
     //let h_third_times256:i128 = 256/64* (2n-4)*d_subthree_times_sixtyfour) as i128; //note (2n-4) becomes n-2 to account for multiply by two
     let h_third_times256: i128 = 4 * (2 * n - 4) * d_subthree_times_sixtyfour; //note (2n-4) becomes n-2 to account for multiply by two
-    println!("head2{:?}", &h_third_times256);
+    //println!("head2{:?}", &h_third_times256);
 
     let hoeffding_integer_numerator: i128 = h_first_times256 + h_second_times256 - h_third_times256;
 
