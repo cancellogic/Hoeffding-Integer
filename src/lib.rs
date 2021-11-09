@@ -111,7 +111,12 @@ pub fn hoeffding_integer_maximum(number_pairs: usize) -> i128 {
 
      D_max_times_pochhammer_times256 = 128/15 * n * (n-1) * (n-2) * (n-3) * (n-4)
      (once again no fraction because n*(n-1)*(n-2) must be divible by 3 for integer n, and (n)(n-1)*(n-2)*(n-3)(n-4) likewise must contain a value divible by 5, and 3 and 5 are not divisible by each other so all values must be divisible by 15)
-      */
+    
+     one last note on maximums - some data types (Vec<boolean>, Vec<i8>, Vec<u8> and others) have limited allowed value states.  If you compare
+     more pairs than allowed possible states, there must be duplicates/matches that will diminish the theoretical maximum.  And this function doesn't care.
+     The maximum is based on a theoretical data type where the number of states is always greater than the number of pairs. 
+     So if you only get 98% of the maximum with 100000 u8 pairs that range between 1 and 32.. that's just fine... this integer form isn't a probability function.
+     */
     let n = number_pairs as i128;
     let hoeffding_integer_maximum = (128 * n * (n - 1) * (n - 2) * (n - 3) * (n - 4)) / 15;
     hoeffding_integer_maximum
