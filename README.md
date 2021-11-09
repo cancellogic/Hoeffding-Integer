@@ -28,7 +28,7 @@ Coded in Rust for generic partially ordinal types (compare {"g","e","n","e","r",
 # Why?
 Hoeffding's Dependence Coefficient is very goot at assigning fitness to nonlinear models for genetic algorithms and machine learning.  The Pochhamer free version isn't normalized so direct comparision between n=50 and n=1000 is not clear even with min and max values for each.  But this still works well in machine learning when models have "not-a-number" defects (defects automatically get lower scores if more than one defect exists, and automatically get lower scores should invalid values be pruned.)
 
-Why program in RUST?  Rust is fast and has taught me better ways to code!  
+Why program in RUST?  Rust is fast and has taught me better ways to code!  And crates like Rayon let this single thread function run on every cpu core ("only once" in machine learning might not be a thing.) 
 
 Why integer?   A ?fantasy? that integer hoeffding is a step toward GPU computation of Hoeffding's Dependence Coefficient D.  And the annoyance that as n gets large (theoretically leading to higher resolution statistics) the floating point math of the denominator Pochhammer factorial makes small progress invisible (if you have n=1587 pairs, a small scramble of progress is divided by the Pochhammer 10003350094863840 thereby likely vanishing in limited floating point decimals.  
 
