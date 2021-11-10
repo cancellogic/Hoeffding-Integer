@@ -52,7 +52,7 @@ first add hoeffding_integer to your cargo file from crates.io (Published late Oc
     println!("min and max possible for statistic: {} <--> {}",dependence_min, dependence_max);
 
 # How fast or slow?
-I can run 1000 randon n=1000 integer D in 2.2 seconds on a eight year old computer with one cpu thread.  I have 16 threads so... not bad.  Faster than results in a couple common number crunching languages.  Fast enough not to be a bottle neck for use where n<10000.
+Compared to Mathematica's Hoeffding D on a Raspberry Pi, for n=1000 this function is ~5.6 times faster, while for n=10000 this function is only 1% faster.  
 
 # Babble...
 Evygene Slutsky may have anticipated some of Hoeffding's work on dependence, but cold war, stoic man and little published in the west.   I believe ES died the same year H published this statistic... unusual correlation that...
