@@ -1,5 +1,5 @@
 # Hoeffding Dependence Coefficient in Integer Form
-This is Wassley Hoeffding's 1948 equation for detecting -frequently nonlinear- relationships in data or variables.  Wassley Hoeffding was there at the founding of modern non-parametric statistics and Hoeffding's work has inspired decades of additional work. 
+This is Wassley Hoeffding's 1948 equation for detecting -frequently nonlinear- relationships in data, but presented as an integer between hypothetical minimum and maximum.  Wassley Hoeffding was there at the founding of modern non-parametric statistics and Hoeffding's work has inspired decades of additional work. 
 
 Hoeffding D = 30 [ (n-2)(n-3)Sum[(Qi-1)(Qi-2)] + Sum[(Ri-1)(Ri-2)(Si-1)(Si-2)] - 2(n-2)Sum[(Ri-2)(Si-2)(Qi-1)] ] / [ n(n-1)(n-2)(n-3)(n-4)] 
         
@@ -52,7 +52,7 @@ first add hoeffding_integer to your cargo file from crates.io (Published late Oc
     println!("min and max possible for statistic: {} <--> {}",dependence_min, dependence_max);
 
 # How fast or slow?
-Compared to Mathematica's Hoeffding D on a Raspberry Pi, for n=1000 this function (in Rust 1.56.1) is ~5.6 times faster, while for n=10000 this function is only 1% faster.  
+Compared to Mathematica's Hoeffding D on a Raspberry Pi, for n=1000 this function (in Rust 1.56.1) is ~5.6 times faster, while for n=10000 this function is only 1% faster.   
 
 # Babble...
 Evygene Slutsky may have anticipated some of Hoeffding's work on dependence, but cold war, stoic man and little published in the west.   I believe ES died the same year H published this statistic... unusual correlation that...
