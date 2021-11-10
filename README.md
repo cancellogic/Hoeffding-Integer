@@ -52,7 +52,7 @@ first add hoeffding_integer to your cargo file from crates.io (Published late Oc
     println!("min and max possible for statistic: {} <--> {}",dependence_min, dependence_max);
 
 # How fast or slow?
-Compared to Mathematica's Hoeffding D on a Raspberry Pi, for n=1000 this function is ~5.6 times faster, while for n=10000 this function is only 1% faster.  
+Compared to Mathematica's Hoeffding D on a Raspberry Pi, for n=1000 this function (in Rust 1.56.1) is ~5.6 times faster, while for n=10000 this function is only 1% faster.  
 
 # Babble...
 Evygene Slutsky may have anticipated some of Hoeffding's work on dependence, but cold war, stoic man and little published in the west.   I believe ES died the same year H published this statistic... unusual correlation that...
