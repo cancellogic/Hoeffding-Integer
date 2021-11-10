@@ -5,12 +5,12 @@ Hoeffding D = 30 [ (n-2)(n-3)Sum[(Qi-1)(Qi-2)] + Sum[(Ri-1)(Ri-2)(Si-1)(Si-2)] -
         
         where D = Dependency, correlation, connection, association, or how unlikely random chance might align the paired lists.
               n = number of paired observations, 
-              Ri are ranks of first value in pair among all other firsts values with half awarded for matches  
-              Si are ranks of the second value in a pair among all second values with half awarded for matches
-              and Qi are bivariate ranks or in English: Plot pairs as xy points, then for each pair count points 
-              that are smaller in both paired values (x and y) then add 3/4 for a pair matching itself, 
-              plus add a quarter for all pairs that have the same xy values (include self again), plus a half for 
-              half equal & half lesser pairs.)  
+              Ri are ranks of first value in pair among all other firsts values with half awarded for matches.  (lowest rank is 0 in 1948 and 1 in late 1950's)   
+              Si are ranks of the second value in a pair among all second values with half awarded for matches. 
+              and Qi are bivariate ranks or in English: Systematically index each pair and plot as xy points. To rank - start at 3/4 for a given pair, 
+              and then count all other pairs that are lower/left of the given pair and add 1 point.   Pairs match on x or y but are less on opposite axis get
+              +1/2 points.  And duplicates of the given pair are worth 1/4 point (and include self - the given point - because 1/4 + 3/4 start = 1 whole
+              self.)  Continue through the index of all pairs untill all points are ranked and you have the Qi.
 
 If Hoeffding's Dependence was multiplied by a value such that whole ranks were represented as four quarters, and the Pochhammer [n(n-1)(n-2)(n-3)(n-4)] was factored out to avoid fractions, the equation would look like:
 
