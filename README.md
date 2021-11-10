@@ -21,7 +21,7 @@ If Hoeffding's Dependence was multiplied by a value such that whole ranks were r
 In this variation of the Dependence calculation, the association is computed with integers by multiplication of the original statistic with 
 n(n-1)(n-2)(n-3)(n-4)(256/30) (n=number of pairs).  Higher values have stronger relationships- good for detection of useful models in machine learning or for genetic algorithm fitness assessment especially in non-linear situations. 
 
-Min and Max values of the integer form can be computed for a given length of paired comparisions. 
+Min and Max values of the integer form can be computed for a given length of paired comparisions - but may not be the real min/max value if you are comparing u8 or yes/no data where the number of allowed states is much less than the number of paired comparisons (statistical analysis rat hole). 
 
 Coded in Rust for generic partially ordinal types (compare {"g","e","n","e","r","i","c","s"} and {3.0,1.0,4.0,1.0,5.0,4.0,3.5,6.1}).  Yep- directly compare different data types - if they sort they likely can be run through Hoeffding_Integer.
 
@@ -52,7 +52,7 @@ first add hoeffding_integer to your cargo file from crates.io (Published late Oc
     println!("min and max possible for statistic: {} <--> {}",dependence_min, dependence_max);
 
 # How fast or slow?
-Compared to Mathematica's Hoeffding D on a Raspberry Pi, for n=1000 this function (in Rust 1.56.1) is ~5.6 times faster, while for n=10000 this function is only 1% faster.   
+Compared to Mathematica's Hoeffding D on a Raspberry Pi, for n=1000 this function (in Rust 1.56.1 built as "cargo build --release") is ~5.6 times faster looking at random noise, while for n=10000 this function is only 1% faster.       
 
 # Babble...
 Evygene Slutsky may have anticipated some of Hoeffding's work on dependence, but cold war, stoic man and little published in the west.   I believe ES died the same year H published this statistic... unusual correlation that...
