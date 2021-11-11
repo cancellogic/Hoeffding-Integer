@@ -21,7 +21,7 @@ If Hoeffding's Dependence was multiplied by a value such that whole ranks were r
 In this variation of the Dependence calculation, the association is computed with integers by multiplication of the original statistic with 
 n(n-1)(n-2)(n-3)(n-4)(256/30) (n=number of pairs).  Higher values have stronger relationships- good for detection of useful models in machine learning or for genetic algorithm fitness assessment especially in non-linear situations. 
 
-Min and Max values of the integer form can be computed for a given length of paired comparisions.  Maximum assumes unique, growing, non-repeating values in every pair. This may not be the actual maximum value when comparing yes/no or 8bit data where the number of allowed states is less than the number of pairs and repeats abound.  Hoeffding_integer_d doesn't understand your specific data constraints- and you may need to write a situational maximum function or adjust goal endpoints  accordingly.    
+Min and Max values of the integer form can be computed for a given length of paired comparisions.  Maximum assumes unique, growing, non-repeating values in every pair. This may not be the actual maximum value when comparing yes/no or 8bit data where the number of allowed states is less than the number of pairs and repeats abound.  Hoeffding_integer_d_maximum doesn't understand your specific data constraints- and you may need to write a situational maximum function or adjust goal endpoints accordingly.  
 
 Coded in Rust for generic partially ordinal types (compare {"g","e","n","e","r","i","c","s"} and {3.0,1.0,4.0,1.0,5.0,4.0,3.5,6.1}).  Yep- directly compare different data types - if they sort they likely can be run through Hoeffding_Integer.
 
@@ -52,7 +52,7 @@ first add hoeffding_integer to your cargo file from crates.io (Published late Oc
     println!("min and max possible for statistic: {} <--> {}",dependence_min, dependence_max);
 
 # How fast or slow?
-For many reasons, I love & endorse Wolfram's computational products like Mathematica and WolframAlpha!  Compared to Mathematica 12.2 on a Raspberry Pi 4, for n=1000pairs Hoeffding_integer_d (with Rust 1.56.1 built as "cargo build --release") this code was ~5.6 times faster looking at random integers, while for n=10000 this function was only 1% faster.  Moving to a Intel Xeon with "WolframKernel 12.3.1", Hoeffding_integer_d runs n=1000 pairs at 22x and n=10000 made of random integers at 4.3x speed.  Your speed may vary by 32bit vs 64bit OS, hardware, etc.          
+For many reasons, I love & endorse Wolfram's computational products like Mathematica and WolframAlpha!  Compared to Mathematica 12.2 on a 32bit os Raspberry Pi 4, for n=1000pairs Hoeffding_integer_d (with Rust 1.56.1 built as "cargo build --release") this code was ~5.6 times faster looking at random integers, while for n=10000 this function was only 1% faster.  Moving to a Intel Xeon with "WolframKernel 12.3.1", Hoeffding_integer_d runs n=1000 pairs at 22x and n=10000 made of random integers at 4.3x speed.  Your speed may vary by 32bit vs 64bit os, hardware, data configuration (presorted vs unsorted), etc.          
 
 # Babble...
 Evygene Slutsky may have anticipated some of Hoeffding's work on dependence, but cold war, stoic man and little published in the west.   I believe ES died the same year H published this statistic... unusual correlation that...
