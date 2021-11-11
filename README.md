@@ -21,7 +21,7 @@ If Hoeffding's Dependence was multiplied by a value such that whole ranks were r
 In this variation of the Dependence calculation, the association is computed with integers by multiplication of the original statistic with 
 n(n-1)(n-2)(n-3)(n-4)(256/30) (n=number of pairs).  Higher values have stronger relationships- good for detection of useful models in machine learning or for genetic algorithm fitness assessment especially in non-linear situations. 
 
-Min and Max values of the integer form can be computed for a given length of paired comparisions - but may not be the real min/max value if you are comparing u8 or yes/no data where the number of allowed states is much less than the number of paired comparisons (statistical analysis rat hole). 
+Min and Max values of the integer form can be computed for a given length of paired comparisions.  Maximum assumes unique, growing, non-repeating values in every pair. This may not be the actual maximum value when comparing yes/no or 8bit data where the number of allowed states is less than the number of pairs and repeats abound.  Hoeffding_integer_d doesn't understand your specific data constraints- and you may need to write a situational maximum function or adjust goal endpoints  accordingly.    
 
 Coded in Rust for generic partially ordinal types (compare {"g","e","n","e","r","i","c","s"} and {3.0,1.0,4.0,1.0,5.0,4.0,3.5,6.1}).  Yep- directly compare different data types - if they sort they likely can be run through Hoeffding_Integer.
 
