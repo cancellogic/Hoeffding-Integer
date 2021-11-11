@@ -52,7 +52,7 @@ first add hoeffding_integer to your cargo file from crates.io (Published late Oc
     println!("min and max possible for statistic: {} <--> {}",dependence_min, dependence_max);
 
 # How fast or slow?
-Compared to Mathematica's Hoeffding D on a Raspberry Pi, for n=1000 this function (in Rust 1.56.1 built as "cargo build --release") is ~5.6 times faster looking at random noise, while for n=10000 this function is only 1% faster.       
+For many reasons, I love & endorse Wolfram's computational products like Mathematica and WolframAlpha!  Compared to Mathematica 12.2 on a Raspberry Pi 4, for n=1000pairs Hoeffding_integer_d (with Rust 1.56.1 built as "cargo build --release") this code was ~5.6 times faster looking at random integers, while for n=10000 this function was only 1% faster.  Moving to a Intel Xeon with "WolframKernel 12.3.1", Hoeffding_integer_d runs n=1000 pairs at 22x and n=10000 made of random integers at 4.3x speed.  Your speed may vary by 32bit vs 64bit OS, hardware, etc.          
 
 # Babble...
 Evygene Slutsky may have anticipated some of Hoeffding's work on dependence, but cold war, stoic man and little published in the west.   I believe ES died the same year H published this statistic... unusual correlation that...
