@@ -35,7 +35,7 @@ Why integer?   A ?fantasy? that integer hoeffding is a step toward GPU computati
 This quibble can be reframed as "what are Hoeffding's D weaknesses?"  In my mind, (1) it is more expensive to compute than Pearsons R (note rust & GPU fantasy) and (2) It finds hidden relationships too well and reports high levels of certainty too quickly for ideal use in selecting "very best of many best" models.  Don't get me wrong - quibbles are quibbles - if you have chemical, biological, behavioral, finance or network data where linear relationships do not rule, please consider Hoeffding D over Pearsons R correlation. 
 
 # The math 
-Please read the hundred lines of mathematics in the comments of main.rs or lib.rs!  I've tried to make the statistic's computation possible to verify, follow and understand.    
+Please read the hundred lines of mathematics in the comments of main.rs or lib.rs!  I've tried to make the statistic's computation possible to verify, follow and understand.    The TLDR route from Hoeffding D to Hoeffding integer is multiply the orginal equation by 256 times the n!5'Pochhammer all divided by 30.  
 
 # How to use
 first add hoeffding_integer to your cargo file from crates.io (Published late Oct 2021)
