@@ -1,7 +1,7 @@
 # Hoeffding Dependence Coefficient in Integer Form:  A good way to find relationships in data
 This is Wassley Hoeffding's 1948 equation for detecting -frequently nonlinear- correlation, coincidence or connections in data, but presented as an integer between hypothetical minimum and maximum - rather than in the decimal form where 1.0 is maximum correlation and every #n has a unique minimum.   Use Hoeffding for AI and data eureka moments.  
 
-Wassley Hoeffding was there at the founding of modern non-parametric statistics and Hoeffding's work has inspired decades of additional work. And I' ve touched his work by multiplication, so lets go over the details:
+Wassley Hoeffding was there at the founding of modern non-parametric statistics and Hoeffding's work has inspired decades of additional work. And I' ve touched his work by multiplication (D times 256 * n!5'Pochhammer / 30 ), so lets go over the details:
 Hoeffding D = 30 [ (n-2)(n-3)Sum[(Qi-1)(Qi-2)] + Sum[(Ri-1)(Ri-2)(Si-1)(Si-2)] - 2(n-2)Sum[(Ri-2)(Si-2)(Qi-1)] ] / [ n(n-1)(n-2)(n-3)(n-4)] 
         
         where D = Dependency, correlation, connection, association, or how unlikely random chance might align the paired lists.
@@ -56,4 +56,4 @@ first add hoeffding_integer to your cargo file from crates.io (Published late Oc
 For many reasons, I love & endorse Wolfram's computational products like Mathematica and WolframAlpha!  Single thread results are reported for one thousand and ten thousand random pairs. Compared to Mathematica 12.2 on a 32bit os Raspberry Pi 4, for n=1000 Hoeffding_integer_d (with Rust 1.56.1 built as "cargo build --release") ran ~5.6 times faster than Mathematica, while for n=10000 this code was only 1% faster.  Moving to a Intel Xeon with "WolframKernel 12.3.1", Hoeffding_integer_d runs n=1000 random pairs 22x faster than WolframKernal and n=10000 random pairs runs 4.3x the speed WolframKernal.  Your speed may vary with Rayon multicore use, 32bit vs 64bit os, hardware, number of pairs, data configuration (presorted vs unsorted), number of cpu threads active, etc.  Goodluck!        
 
 # Babble...
-Evygene Slutsky may have anticipated some of Hoeffding's work on dependence, as well as Lorenz's work on attractors, but cold war, stoic man, why would equations from politics or economics be applicable to statistics or physics and little published in the west.   I believe ES died the same year H published this statistic... unusual correlation that...
+Evygene Slutsky seems unappreciated and yet may have anticipated some of Hoeffding's work on dependence, as well as Lorenz's work on attractors, but cold war, stoic man, untidy dawn of idea that equations from politics would be applicable to economics or physics because they are statistics and little published in the west.   I believe ES died the same year H published this statistic... unusual correlation that...
