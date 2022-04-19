@@ -1,6 +1,7 @@
-# Hoeffding Dependence Coefficient in Integer Form
-This is Wassley Hoeffding's 1948 equation for detecting -frequently nonlinear- relationships in data, but presented as an integer between hypothetical minimum and maximum.  Wassley Hoeffding was there at the founding of modern non-parametric statistics and Hoeffding's work has inspired decades of additional work. 
+# Hoeffding Dependence Coefficient in Integer Form:  A good way to find relationships in data
+This is Wassley Hoeffding's 1948 equation for detecting -frequently nonlinear- correlation, coincidence or connections in data, but presented as an integer between hypothetical minimum and maximum - rather than in the decimal form where 1.0 is maximum correlation and every #n has a unique minimum.   Use Hoeffding for AI and data eureka moments.  
 
+Wassley Hoeffding was there at the founding of modern non-parametric statistics and Hoeffding's work has inspired decades of additional work. And I' ve touched his work by multiplication, so lets go over the details:
 Hoeffding D = 30 [ (n-2)(n-3)Sum[(Qi-1)(Qi-2)] + Sum[(Ri-1)(Ri-2)(Si-1)(Si-2)] - 2(n-2)Sum[(Ri-2)(Si-2)(Qi-1)] ] / [ n(n-1)(n-2)(n-3)(n-4)] 
         
         where D = Dependency, correlation, connection, association, or how unlikely random chance might align the paired lists.
@@ -12,7 +13,7 @@ Hoeffding D = 30 [ (n-2)(n-3)Sum[(Qi-1)(Qi-2)] + Sum[(Ri-1)(Ri-2)(Si-1)(Si-2)] -
               +1/2 points.  And duplicates of the given pair are worth 1/4 point (and include self - the given point - because 1/4 + 3/4 start = 1 whole
               self.)  Continue through the index of all pairs untill all points are ranked and you have the Qi.
 
-If Hoeffding's Dependence was multiplied by a value such that whole ranks were represented as four quarters, and the Pochhammer [n(n-1)(n-2)(n-3)(n-4)] was factored out to avoid fractions, the equation would look like:
+If Hoeffding's Dependence was multiplied by a value such that whole ranks were represented as four quarters, and the Pochhammer [n(n-1)(n-2)(n-3)(n-4)] was factored to avoid fractions, the equation would look like:
 
         "H_integer D" = [ 16(n-2)(n-3)Sum[4(Qi-1)4(Qi-2)] + Sum[4(Ri-1)4(Ri-2)4(Si-1)4(Si-2)] - 4*2(n-2)Sum[4(Ri-2)4(Si-2)4(Qi-1)] ]
         simplified-->
@@ -21,9 +22,9 @@ If Hoeffding's Dependence was multiplied by a value such that whole ranks were r
 In this variation of the Dependence calculation, the association is computed with integers by multiplication of the original statistic with 
 n(n-1)(n-2)(n-3)(n-4)(256/30) (n=number of pairs).  Higher values have stronger relationships- good for detection of useful models in machine learning or for genetic algorithm fitness assessment especially in non-linear situations. 
 
-Min and Max values of the integer form can be computed for a given length of paired comparisions.  Maximum assumes unique, growing, non-repeating values in every pair, but unique values may not be possible when comparing yes/no or 8bit data where the number of allowed states is less than the number of pairs and repeats abound.  Binary comparisions may not even be a correct use, but they do suggest to me the Hoeffding's dependence form could be pivoted into a form with bit bin tallys for fast computation and far less sorting CPU time (and thar be dragons).   So... this hoeffding_integer_d_maximum doesn't understand your specific data constraints- and you may need to write a situational maximum function or adjust goal endpoints accordingly.  
+Min and Max values of the integer form can be computed for a given length of paired comparisions.  Maximum assumes unique, growing, non-repeating values in every pair, but unique values may not be possible when comparing yes/no or 8bit data where the number of allowed states is less than the number of pairs and repeats abound.  Binary comparisions may not even be a correct use, but they do suggest to me the Hoeffding's dependence form could be pivoted into a form with bit bin tallys for fast computation and far less sorting CPU time (and thar be dragons that eat manhours).   So... this hoeffding_integer_d_maximum doesn't understand your specific data constraints- and you may need to write a situational maximum function or adjust goal endpoints accordingly.  
 
-Coded in Rust for generic partially ordinal types (compare {"g","e","n","e","r","i","c","s"} and {3.0,1.0,4.0,1.0,5.0,4.0,3.5,6.1}).  Yep- directly compare different data types - if they sort they likely can be run through Hoeffding_Integer.
+Coded in Rust for generic partially ordinal types (compare {"g","e","n","e","r","i","c","s"} and {3.0,1.0,4.0,1.0,5.0,4.0,3.5,6.1}).  Yep- directly compare vastly different data types - if they sort they likely can be run through Hoeffding_Integer.  For the data scientist that flexability is beautiful- for the compiler and programmer- my condolences on extra seconds to enjoy a sip of a hot beverage. 
 
 # Why?
 Hoeffding's Dependence Coefficient is very good at assigning fitness to nonlinear models for genetic algorithms and machine learning.  The Pochhammer free version isn't normalized so direct comparision between n=50 and n=1000 is not clear even with min and max values for each.  But this still works well in machine learning when models have "not-a-number" defects (defects automatically get lower scores if more than one defect exists, and automatically get lower scores should invalid values be pruned.)
