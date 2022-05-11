@@ -5,7 +5,7 @@ Wassley Hoeffding was there at the founding of modern non-parametric statistics 
 
 Hoeffding D = 30 [ (n-2)(n-3)Sum[(Qi-1)(Qi-2)] + Sum[(Ri-1)(Ri-2)(Si-1)(Si-2)] - 2(n-2)Sum[(Ri-2)(Si-2)(Qi-1)] ] / [ n(n-1)(n-2)(n-3)(n-4)] 
         
-        where D = Dependency, correlation, connection, association, or how unlikely random chance might align the paired lists.
+        where D = Dependency, correlation, connection, association, or how unlikely chance might align paired lists.
               n = number of paired observations, 
               Ri are ranks of first value in pair among all other firsts values with half awarded for matches.  (lowest rank is 0 in 1948 and 1 in late 1950's)   
               Si are ranks of the second value in a pair among all second values with half awarded for matches. 
