@@ -1,7 +1,7 @@
 # Hoeffding Dependence Coefficient in Integer Form:  A good way to find relationships in data
-This is Wassley Hoeffding's 1948 equation for detecting -frequently nonlinear- correlation, coincidence or connections in data, but presented as an integer between hypothetical minimum and maximum - rather than in the decimal form where 1.0 is maximum correlation and every #n has a unique minimum.   Use Hoeffding for AI and data eureka moments.  
+This is Wassley Hoeffding's 1948 equation for detecting -frequently nonlinear- correlation, coincidence or connections in data, but presented as an integer between hypothetical minimum and maximum - rather than in the decimal form where 1.0 is maximum correlation and every #n has a unique minimum.   Use Hoeffding for AI and data eureka moments.  This crate should work on variables in vectors with types featuring partial equality sorting.
 
-Wassley Hoeffding was there at the founding of modern non-parametric statistics and Hoeffding's work has inspired decades of additional work. And I' ve touched his work by multiplication (D times 256 * five_term_Pochhammer_of_n / 30 ) to eliminate trailing decimals  => so lets go over the details:
+Wassley Hoeffding was there at the founding of modern non-parametric statistics and Hoeffding's work has inspired decades of additional work. And I' ve touched his work by multiplication (D times 256 * five_term_Pochhammer_of_n / 30 ) to eliminate any fractions or trailing decimals  => so lets go over the details:
 
 Hoeffding D = 30 [ (n-2)(n-3)Sum[(Qi-1)(Qi-2)] + Sum[(Ri-1)(Ri-2)(Si-1)(Si-2)] - 2(n-2)Sum[(Ri-2)(Si-2)(Qi-1)] ] / [ n(n-1)(n-2)(n-3)(n-4)] 
         
@@ -55,11 +55,13 @@ first add hoeffding_integer to your cargo file from crates.io (Published late Oc
     println!("min and max possible for statistic: {} <--> {}",dependence_min, dependence_max);
 
 # How fast or slow?  --release and benchmarks   Random sample?
-First, be sure to "cargo run --release", the optimized release builds are so good that it feels like a bug not to use them. 
+First, be sure to "cargo run --release", the optimized release builds are so good that it feels like a bug not to use them.  Second, even tho the github %code says this isn't 100% rust, the code that runs in the crate is pure rust.  
 
-For many reasons, I love & endorse Wolfram's computational products like Mathematica and WolframAlpha!  Single thread results are reported for one thousand and ten thousand random pairs. Compared to Mathematica 12.2 on a 32bit os Raspberry Pi 4, for n=1000 Hoeffding_integer_d (with Rust 1.56.1 built as "cargo build --release") ran ~5.6 times faster than Mathematica, while for n=10000 this code was only 1% faster.  Moving to a Intel Xeon with "WolframKernel 12.3.1", Hoeffding_integer_d runs n=1000 random pairs 22x faster than WolframKernal and n=10000 random pairs runs 4.3x the speed WolframKernal.  Your speed may vary with Rayon multicore use, 32bit vs 64bit os, hardware, number of pairs, data configuration (presorted vs unsorted), number of cpu threads active, etc. 
+For many reasons, I love & endorse Wolfram's computational products like Mathematica and WolframAlpha!  Single thread results are reported for one thousand and ten thousand random pairs. Compared to Mathematica 12.2 on a 32bit os Raspberry Pi 4, for n=1000 Hoeffding_integer_d (with Rust 1.56.1 built as "cargo build --release") ran ~5.6 times faster than Mathematica, while for n=10000 this code was only 1% faster.  Moving to a Intel Xeon with "WolframKernel 12.3.1", Hoeffding_integer_d runs n=1000 random pairs 22x faster than WolframKernal and n=10000 random pairs runs 4.3x the speed WolframKernal.  Your speed may vary with Rayon multicore use, 32bit vs 64bit os, hardware, number of pairs, data configuration (presorted vs unsorted), number of cpu threads active, etc.
 
-Last speed tips:  Run small (<10k) to run fast - this function slows roughly by the cube of pairs.  Exclude missing data.  You probably don't need to exactly compute D in order to make a discovery.  Focus - if you are looking for rare events in a sea of normal data, randomly exclude "normal" pairs.   For large datasets (over 60k?) consider random subsampling to reduce #n pairs - unless subsampling would exclude "rare" data.  
+Seems likely mathematica has a clever to speed up bivariate ranking. hmm...
+
+Last speed tips:  Run small (<10k) to run fast - this function slows roughly by the cube of pairs.  Exclude missing data.  You probably don't need to exactly compute D in order to make a discovery.  Focus - if you are looking for rare events in a sea of normal data, randomly exclude "normal" pairs.   For large datasets (over 60k?) consider random subsampling in order to reduce #n pairs - unless subsampling would exclude "rare" data you don't already know how to spot.   And if you don't know what you are looking for, consider sequential subsamples - for a list of a milliion, try splitting it into twenty faster running groups of 5k each and then computing the product of each D's slice (D product = D(1..5000) * D(5001..10000) * ... * D(995_000..1_000_000)). 
 Goodluck!        
 
 # Babble...
