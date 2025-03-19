@@ -141,8 +141,9 @@ pub fn order_sort_by<T: Clone + Copy + PartialOrd>(list: &Vec<T>) -> Vec<usize> 
     //(1) Create index
     let mut orders: Vec<usize> = (0..(list.len())).collect();
 
-    orders.sort_by(|a, b| (list[*a]).partial_cmp(&list[*b]).unwrap());
-
+    orders.sort_by(|a, b| (list[*a]).partial_cmp(&list[*b]).unwrap());  // 10.6006446s for 1M pairs
+      //Slightly slower:  10.6085055s for 1M pairs:   glidesort::sort_by(&mut orders, |a, b| (list[*a]).partial_cmp(&list[*b]).unwrap());
+      //not a big difference... so I'm staying dependency free in 2025?
     return orders;
 }
 
